@@ -1,0 +1,88 @@
+header {
+  background-image: 
+  linear-gradient(to right,rgba(192, 232, 90,0.4) 0%, rgba(43, 60, 136,0.9) 100%), url('../../Assets/Imgs/library-lg.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size:cover;
+  min-height: 100vh;
+}
+
+.dropdown-item, .nav-link {
+  font-weight: 200;
+  font-size: 1.25rem;
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.nav-link {
+  color: whitesmoke !important;
+  border: none;
+}
+
+.nav-link.show {
+  color: whitesmoke !important;
+  border: none;
+}
+
+.nav-link:hover {
+  font-size: 1.24rem;
+  font-weight: 100;
+  animation: border-load 0.3s linear forwards;
+  border-bottom: 3px solid transparent;
+}
+
+@keyframes border-load {
+  0% {
+    width: 0%;
+    height: 100%;
+    border-bottom-color: transparent;
+  }
+
+  100% {
+    width: 100%;
+    height: 100%;
+    border-bottom-color: var(--primary-color);
+  }
+}
+
+.dropdown-toggle::after {
+  display: inline-block;
+  margin-left: none !important;
+  vertical-align: none !important;
+  border-top: none !important;
+  border-right: none !important;
+  border-bottom: none !important;
+  border-left: none !important;
+}
+
+.dropdown-menu .dropdown-item {
+  font-weight: 100 !important;
+  font-size: 1rem;
+  color: grey;
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+main {
+  text-align: center !important;
+}
+
+@media (min-width: 992px) {
+  main {
+    text-align: left !important;
+  }
+}
+
+.btn-white.bg-transparent:hover {
+  background-color: white !important;
+  color: var(--primary-color) !important;
+}
+
+
+
+#achievement-section {
+  background-image: 
+  linear-gradient(to right,rgba(192, 232, 90,0.3) 10%, rgba(43, 60, 136,0.9) 100%), url('../../Assets/Imgs/library-lg.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size:cover;
+  color: white !important;
+}
