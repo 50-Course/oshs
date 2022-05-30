@@ -76,8 +76,6 @@ main {
   color: var(--primary-color) !important;
 }
 
-
-
 #achievement-section {
   background-image: 
   linear-gradient(to right,rgba(192, 232, 90,0.3) 10%, rgba(43, 60, 136,0.9) 100%), url('../../Assets/Imgs/library-lg.jpg');

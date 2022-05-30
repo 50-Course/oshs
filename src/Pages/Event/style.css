@@ -1,0 +1,25 @@
+.form-label {
+  text-align: left;
+  font-weight: 300;
+  font-size: 1.7rem;
+  width: 100%;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  color:  #6c757d !important;
+}
+
+.form-select, .form-control {
+  width: 100%;
+  color:  #6c757d !important;
+  font-size: 1.2rem !important;
+}
+
+#main {
+  margin-top: 12rem;
+}
+
+@media (max-width: 991px) {
+  #main {
+    margin-top: 40rem;
+  } 
+}

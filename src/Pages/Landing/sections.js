@@ -4,7 +4,7 @@ import GalleryCard from "../../Components/Cards/GalleryCard";
 export const PrincipalAddressSection = () => {
   return (
     <section className="bg-light p-5">
-      <div className="row container">
+      <div className="row container mx-auto">
         <div className="col-md-7 order-md-0 order-1 col-12">
           <h1 className="mb-4">Principal's Address</h1>
           <h2 className="fs-4 text-muted mb-4">Subheading</h2>
