@@ -2,9 +2,10 @@ import Header from "./header"
 import GalleryCard from "../../Components/Cards/GalleryCard";
 import LoadMoreButton from "../../Components/Buttons/LoadMore";
 import './style.css'
+import { FullScreenModal } from "../../Layouts/Modal";
 
 const Gallery = () => {
-
+  const indexs = [0,1,2,3,4,5]
   return (
     <div>
       <Header />
@@ -20,23 +21,14 @@ const Gallery = () => {
             padding: 0
           }}
         >
-          <div className="col px-0" style={{height: '50vh'}}>
-            <GalleryCard />
-          </div>
-          <div className="col px-0" style={{height: '50vh'}}>
-            <GalleryCard />
-          </div><div className="col px-0" style={{height: '50vh'}}>
-            <GalleryCard />
-          </div>
-          <div className="col px-0" style={{height: '50vh'}}>
-            <GalleryCard />
-          </div>
-          <div className="col px-0" style={{height: '50vh'}}>
-            <GalleryCard />
-          </div><div className="col px-0" style={{height: '50vh'}}>
-            <GalleryCard />
-          </div>
-          
+        { 
+          indexs.map((i)  => {
+            return <div className="col px-0" key={i} style={{height: '50vh'}}>
+              <GalleryCard index={"galleryFullScreen" + i} />
+              <FullScreenModal id={"galleryFullScreen" + i} Content={<GalleryCard />} />
+            </div>
+          })
+        }          
           <div className="my-5 w-100">
             <LoadMoreButton />
           </div>

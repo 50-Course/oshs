@@ -15,7 +15,7 @@ const Nav = () => {
           </Link>
         </li>
         <li className="nav-item">
-          <Link className="nav-link" to="#">
+          <Link className="nav-link" to="/about">
             About
           </Link>
         </li>
@@ -55,7 +55,7 @@ const Nav = () => {
               </Link>
             </li>
             <li>
-              <Link className="dropdown-item" to="#">
+              <Link className="dropdown-item" to="/schooladmin">
                 School Administration
               </Link>
             </li>

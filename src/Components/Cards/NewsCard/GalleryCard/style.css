@@ -1,0 +1,31 @@
+.galleryCard {
+  border: none;
+}
+
+
+.galleryCard:hover {
+  animation: border-grow-inwards 0.3s linear forwards;
+  border: 3px solid transparent;
+}
+
+@keyframes border-grow-inwards {
+  0% {
+    border: 3px solid transparent;
+
+  }
+
+  25% {
+    border: 5px solid var(--primary-color);
+  }
+
+  50% {
+    border: 7px solid var(--primary-color);
+  }
+
+  75% {
+    border: 9px solid var(--primary-color);
+  }
+  100% {
+    border: 11px solid var(--primary-color);
+  }
+}

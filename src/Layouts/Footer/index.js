@@ -11,10 +11,10 @@ const Footer = () =>  {
           <h2 className="mb-3">Usefull Links</h2>
           <ul className="bg-transparent p-0 gap-2 d-flex flex-column" style={{listStyle: 'none'}}>
             <li className="">
-              <Link to={'#'} className="text-decoration-none">School</Link>
+              <Link to={'/educators'} className="text-decoration-none">Educators</Link>
             </li>
             <li className="">
-              <Link to={'#'} className="text-decoration-none">Events</Link>
+              <Link to={'/events'} className="text-decoration-none">Events</Link>
             </li>
             <li className="">
               <Link to={'#'} className="text-decoration-none">News</Link>
@@ -23,7 +23,7 @@ const Footer = () =>  {
               <Link to={'#'} className="text-decoration-none">Academic Calender</Link>
             </li>
             <li className="">
-              <Link to={'#'} className="text-decoration-none">School Administration</Link>
+              <Link to={'/schooladmin'} className="text-decoration-none">School Administration</Link>
             </li>
           </ul>
         </div>

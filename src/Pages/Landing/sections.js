@@ -1,5 +1,7 @@
 import NewsCard from "../../Components/Cards/NewsCard";
 import GalleryCard from "../../Components/Cards/GalleryCard";
+import { FullScreenModal } from "../../Layouts/Modal";
+
 
 export const PrincipalAddressSection = () => {
   return (
@@ -159,34 +161,30 @@ export const NewsSection = () => {
 }
 
 export const GallerySection = () => {
+  const indexs = [0,1,2,3]
+
   return (
     <section className="bg-light">
       <div className="container p-5 mt-5">
         <h1 className="text-center mb-5">Gallery</h1>
-        <div className="d-flex flex-lg-row flex-column">
+        <div className="d-flex flex-lg-row flex-column gap-4">
 
           <div className="flex-fill" style={{height: '20rem'}}>
-            <GalleryCard />
+            <GalleryCard index="galleryFullScreenMain" />
+            <FullScreenModal id="galleryFullScreenMain" Content={<GalleryCard />} />
           </div>
 
           <div className="flex-fill" >
-            <div className="d-flex flex-column">
-              <div className="d-flex flex-column flex-lg-row">-
-                <span className="flex-fill" style={{height: '10rem'}}>
-                  <GalleryCard />
-                </span>
-                <span className="flex-fill" style={{height: '10rem'}}>
-                  <GalleryCard />
-                </span>
-              </div>
-              <div className="d-flex flex-column flex-lg-row">-
-                <span className="flex-fill" style={{height: '10rem'}}>
-                  <GalleryCard />
-                </span>
-                <span className="flex-fill" style={{height: '10rem'}}>
-                  <GalleryCard />
-                </span>
-              </div>
+            <div className="row d-flex flex-row row-cols-1 row-cols-lg-2">
+            {
+              indexs.map((i)  => {
+                return <div className="col px-0" key={i} style={{height: '10rem'}}>
+                  <GalleryCard index={"galleryFullScreen" + i} />
+                  <FullScreenModal id={"galleryFullScreen" + i} Content={<GalleryCard />} />
+                </div>
+              })
+            }
+
             </div>
           </div>
 
