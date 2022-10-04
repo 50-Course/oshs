@@ -165,11 +165,11 @@ export const GallerySection = () => {
 
   return (
     <section className="bg-light">
-      <div className="container p-5 mt-5">
+      <div className="container-fluid p-5 mt-5">
         <h1 className="text-center mb-5">Gallery</h1>
         <div className="d-flex flex-lg-row flex-column gap-4">
 
-          <div className="flex-fill" style={{height: '20rem'}}>
+          <div className="flex-fill" style={{height: '30rem'}}>
             <GalleryCard index="galleryFullScreenMain" />
             <FullScreenModal id="galleryFullScreenMain" Content={<GalleryCard />} />
           </div>
@@ -178,7 +178,7 @@ export const GallerySection = () => {
             <div className="row d-flex flex-row row-cols-1 row-cols-lg-2">
             {
               indexs.map((i)  => {
-                return <div className="col px-0" key={i} style={{height: '10rem'}}>
+                return <div className="col px-0" key={i} style={{height: '15rem'}}>
                   <GalleryCard index={"galleryFullScreen" + i} />
                   <FullScreenModal id={"galleryFullScreen" + i} Content={<GalleryCard />} />
                 </div>

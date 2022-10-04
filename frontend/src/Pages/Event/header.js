@@ -7,7 +7,7 @@ const Header = () => {
     <header className="d-flex flex-column py-5" style={{minHeight: '70vh'}}>
       <nav className="navbar navbar-expand-lg navbar-light ">
         <div className="container">
-          <Link className="navbar-brand" to="#">
+          <Link className="navbar-brand" to="/">
             <h1 className="text-primary">
               OSHS
             </h1>

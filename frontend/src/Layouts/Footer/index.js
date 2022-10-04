@@ -5,7 +5,9 @@ const Footer = () =>  {
     <footer className="container-fluid px-0">
       <div className="d-flex flex-md-row flex-column text-center text-md-start gap-3 px-2 py-4">
         <div className="flex-fill d-flex flex-column">
-          <h1 className="text-center my-auto mx-auto">OSHS</h1>
+          <Link to={'/'} className="text-decoration-none text-center my-auto mx-auto">
+            <h1>OSHS</h1>
+          </Link>
         </div>
         <div className="flex-fill">
           <h2 className="mb-3">Usefull Links</h2>
@@ -45,8 +47,8 @@ const Footer = () =>  {
             lorem ipsum lagdir vasit noriem ligha na supium
           </span>
           <span>
-          <i className="bi bi-envelope mx-2"></i>
-          <a href="mailto: example@gmail.com" className="text-decoration-none">example@gmail.com</a>
+            <i className="bi bi-envelope mx-2"></i>
+            <a href="mailto: example@gmail.com" className="text-decoration-none">example@gmail.com</a>
           </span>
           <span>
             <i className="bi bi-telephone-fill mx-2"></i> 
