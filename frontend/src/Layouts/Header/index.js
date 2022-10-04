@@ -10,11 +10,6 @@ const Nav = () => {
     <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
       <ul className="navbar-nav gap-3 me-auto mb-2 mb-lg-0 d-flex flex-lg-row justify-content-lg-end w-100">
         <li className="nav-item">
-          <Link className="nav-link active" to="/">
-            Home
-          </Link>
-        </li>
-        <li className="nav-item">
           <Link className="nav-link" to="/about">
             About
           </Link>
