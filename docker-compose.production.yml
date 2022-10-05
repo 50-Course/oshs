@@ -1,5 +1,6 @@
+version: '3.3'
 name: deployment-compose
-MAINTAINER: OSHS
+# MAINTAINER: OSHS
 
 # Base configuration
 # This allow for configuraton re-usability
@@ -24,8 +25,7 @@ x-app: &core
       condition: service-healthy
   ports:
     - "${DOCKER_SERVICE_BACKEND_PORT:-8000:8000}"
-  restart:
-    - "${DOCKER_RESTART_POLICY:-unless-stopped}"
+  restart: "${DOCKER_RESTART_POLICY:-unless-stopped}"
   stop_grace_period: "3s"
   volumes:
     - "./backend:/backend"
@@ -39,7 +39,7 @@ x-main: &frontend
     sh -c "
     serve -s build -l 3000"
   depends_on:
-    - web
+    - "web"
   volumes:
     - ./frontend:/frontend
   networks:
@@ -53,9 +53,8 @@ services:
   backend:
     <<: *core
     container_name: backend-api
-    deploy:
-      resources:
-
+    depends_on:
+      - "web"
     healthcheck:
       test: sh -c "curl http://localhost:8000" || exit 1
       interval: 1m30s10s
@@ -72,17 +71,13 @@ services:
     deploy:
       restart_policy:
         condition: on-failure
-        interval: 1m30s
-        timeout: 30s
-        retries: 3
   postgres:
     image: postgres-14.5-bullseye
     env_file:
       - ".env"
     profiles: # REF: https://docs.docker.com/compose/compose-file/#profiles-1
-      - ["postgres"]
-    restart_policy:
-      - "${DOCKER_RESTART_POLICY:-unless-stopped}"
+      - "postgres"
+    restart: "${DOCKER_RESTART_POLICY:-unless-stopped}"
     volumes:
     - "postgres:/var/lib/postgresql/data"
 
