@@ -15,8 +15,6 @@ x-app: &core
 
   command: |
     sh -c "
-    cd ./backend/core &&
-    python manage.py makemigrations &&
     python manage.py migrate &&
     daphne -b 0.0.0.0 -p 8000 core.asgi:application"
   env_file:
@@ -30,7 +28,7 @@ x-app: &core
     - "${DOCKER_RESTART_POLICY:-unless-stopped}"
   stop_grace_period: "3s"
   volumes:
-    - ".:/backend"
+    - "./backend:/backend"
   networks:
     - back-net
 
@@ -52,7 +50,7 @@ x-main: &frontend
 services:
   # PREFER Anchors
   # Source: https://nickjanetakis.com/blog/docker-tip-82-using-yaml-anchors-and-x-properties-in-docker-compose
-  web:
+  backend:
     <<: *core
     container_name: backend-api
     deploy:
