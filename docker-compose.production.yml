@@ -1,31 +1,98 @@
-COMPOSE_NAME_FILE: deployment-compose
+name: deployment-compose
 MAINTAINER: OSHS
 
-x-app: &backend
+# Base configuration
+# This allow for configuraton re-usability
+#
+# PREFER decompositing your services in \
+# production. Configure your common settings \
+# from which services can extend from;
+#
+# Source: https://nickjanetakis.com/blog/best-practices-around-production-ready-web-apps-with-docker-compose
+x-app: &core
   build:
     context: ./backend/
+
   command: |
     sh -c "
     cd ./backend/core &&
+    python manage.py makemigrations &&
+    python manage.py migrate &&
     daphne -b 0.0.0.0 -p 8000 core.asgi:application"
   env_file:
     - .env
   depends_on:
-    "postgres"
+    - postgres:
+      condition: service-healthy
   ports:
-    - ${DOCKER_SERVICE_BACKEND_PORT:-8000:8000}
+    - "${DOCKER_SERVICE_BACKEND_PORT:-8000:8000}"
   restart:
-    -${DOCKER_RESTART_POLICY:-unless-stopped}
+    - "${DOCKER_RESTART_POLICY:-unless-stopped}"
+  stop_grace_period: "3s"
   volumes:
-    - ./backend:/backend
+    - ".:/backend"
+  networks:
+    - back-net
+
+x-main: &frontend
+  build:
+    context: ./frontend/
+  command: |
+    sh -c "
+    serve -s build -l 3000"
+  depends_on:
+    - web
+  volumes:
+    - ./frontend:/frontend
+  networks:
+    - front-net
+    - back-net
+
 
 services:
+  # PREFER Anchors
+  # Source: https://nickjanetakis.com/blog/docker-tip-82-using-yaml-anchors-and-x-properties-in-docker-compose
   web:
-    <<: *backend
+    <<: *core
+    container_name: backend-api
+    deploy:
+      resources:
+
     healthcheck:
-      test: sh -c "curl http://localhost:8000" | exit 1
-      interval: 1m30s
+      test: sh -c "curl http://localhost:8000" || exit 1
+      interval: 1m30s10s
       timeout: 30s
       retries: 3
       start_period: 30s
-      end_period: 10s
+    networks:
+      - back-net
+      - front-net
+
+  frontend-service:
+    <<: *frontend
+    container_name: frontend
+    deploy:
+      restart_policy:
+        condition: on-failure
+        interval: 1m30s
+        timeout: 30s
+        retries: 3
+  postgres:
+    image: postgres-14.5-bullseye
+    env_file:
+      - ".env"
+    profiles: # REF: https://docs.docker.com/compose/compose-file/#profiles-1
+      - ["postgres"]
+    restart_policy:
+      - "${DOCKER_RESTART_POLICY:-unless-stopped}"
+    volumes:
+    - "postgres:/var/lib/postgresql/data"
+
+# Volumes
+# Postgres and uhm... Add Redis ;)
+volumes:
+  postgres: {}
+
+networks:
+  back-net: {}
+  front-net: {}
