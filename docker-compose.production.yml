@@ -1,91 +1,62 @@
-version: '3.3'
-name: deployment-compose
-# MAINTAINER: OSHS
-
-# Base configuration
-# This allow for configuraton re-usability
-#
-# PREFER decompositing your services in \
-# production. Configure your common settings \
-# from which services can extend from;
-#
-# Source: https://nickjanetakis.com/blog/best-practices-around-production-ready-web-apps-with-docker-compose
-x-app: &core
+x-app: &base-app
   build:
     context: ./backend/
-
-  command: |
-    sh -c "
-    python manage.py migrate &&
-    daphne -b 0.0.0.0 -p 8000 core.asgi:application"
+    # args:
+    #   - "UID=${UID:-1000}"
+    #   - "GID=${GID:-1000}"
+  depends_on:
+    - db
   env_file:
-    - .env
-  depends_on:
-    - postgres:
-      condition: service-healthy
-  ports:
-    - "${DOCKER_SERVICE_BACKEND_PORT:-8000:8000}"
-  restart: "${DOCKER_RESTART_POLICY:-unless-stopped}"
-  stop_grace_period: "3s"
-  volumes:
-    - "./backend:/backend"
-  networks:
-    - back-net
-
-x-main: &frontend
-  build:
-    context: ./frontend/
-  command: |
-    sh -c "
-    serve -s build -l 3000"
-  depends_on:
-    - "web"
-  volumes:
-    - ./frontend:/frontend
-  networks:
-    - front-net
-    - back-net
-
+    - ".env"
+  restart: "unless-stopped"
 
 services:
-  # PREFER Anchors
-  # Source: https://nickjanetakis.com/blog/docker-tip-82-using-yaml-anchors-and-x-properties-in-docker-compose
   backend:
-    <<: *core
-    container_name: backend-api
-    depends_on:
-      - "web"
+    <<: *base-app
+    container_name: backend
+    command: >
+      sh -c "
+        python ./manage.py migrate  &&
+        daphne -b 0.0.0.0 -p 8000 core.asgi:application
+      "
     healthcheck:
-      test: sh -c "curl http://localhost:8000" || exit 1
-      interval: 1m30s10s
-      timeout: 30s
+      test: curl http://0.0.0.0:8000/ || exit 1
+      interval: 1m30s
+      timeout: 40s
       retries: 3
       start_period: 30s
-    networks:
-      - back-net
-      - front-net
+    depends_on:
+      - db
+    ports:
+      - "8000:8000"
 
-  frontend-service:
-    <<: *frontend
-    container_name: frontend
-    deploy:
-      restart_policy:
-        condition: on-failure
-  postgres:
-    image: postgres-14.5-bullseye
+  db:
+    image: postgres:14.5-bullseye
+    container_name: postgres_db
+    restart: "unless-stopped"
+    ports:
+      - 5432
     env_file:
-      - ".env"
-    profiles: # REF: https://docs.docker.com/compose/compose-file/#profiles-1
-      - "postgres"
-    restart: "${DOCKER_RESTART_POLICY:-unless-stopped}"
+    - "./.env"
     volumes:
-    - "postgres:/var/lib/postgresql/data"
+      - "db:/var/lib/postgresql/data"
 
-# Volumes
-# Postgres and uhm... Add Redis ;)
+  frontend:
+    build:
+      context: ./frontend/
+    restart: on-failure
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/frontend
+    command: >
+      sh -c "
+        serve -s build -l 3000"
+    env_file:
+      - ./.env
+    depends_on:
+      - "backend"
+
+
 volumes:
-  postgres: {}
-
-networks:
-  back-net: {}
-  front-net: {}
+  db: {}

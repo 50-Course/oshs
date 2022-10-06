@@ -8,3 +8,5 @@
 
 # misc
 .env
+**/venv/
+**/__pycache__/
