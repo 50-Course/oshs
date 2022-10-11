@@ -4,7 +4,6 @@ ENV PYTHONUNBUFFERED 1
 RUN mkdir /backend
 COPY . /backend/
 
-RUN pip install --upgrade pip
-RUN pip install -r /backend/requirements.txt
+RUN poetry add -r ./requirements.txt
 
 WORKDIR /backend
